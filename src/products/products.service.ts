@@ -5,6 +5,7 @@ import { Product } from '@prisma/client';
 @Injectable()
 export class ProductsService {
   constructor(private prismaService: PrismaService) {}
+
   public getAll(): Promise<Product[]> {
     return this.prismaService.product.findMany();
   }

@@ -21,14 +21,16 @@ export class OrdersController {
   }
 
   @Get('/:id')
-  getById(@Param('id') id: string) {
+  async getById(@Param('id') id: string) {
+    const order = await this.ordersService.getById(id);
+    if (!order) throw new NotFoundException('Order not found');
     return this.ordersService.getById(id);
   }
 
   @Delete('/:id')
-  deleteById(@Param('id') id: string) {
-    if (!this.ordersService.getById(id))
-      throw new NotFoundException('Order not found');
+  async deleteById(@Param('id') id: string) {
+    const order = await this.ordersService.getById(id);
+    if (!order) throw new NotFoundException('Order not found');
     return this.ordersService.deleteById(id);
   }
 
@@ -38,9 +40,9 @@ export class OrdersController {
   }
 
   @Put('/:id')
-  updateById(@Param('id') id: string, @Body() orderData: CreateOrderDTO) {
-    if (!this.ordersService.getById(id))
-      throw new NotFoundException('Order not found');
+  async updateById(@Param('id') id: string, @Body() orderData: CreateOrderDTO) {
+    const order = await this.ordersService.getById(id);
+    if (!order) throw new NotFoundException('Order not found');
     return this.ordersService.updateById(id, orderData);
   }
 }
