@@ -10,6 +10,7 @@ import {
 } from '@nestjs/common';
 import { OrdersService } from './orders.service';
 import { CreateOrderDTO } from './dtos/create-order.dto';
+import { UpdateOrderDTO } from './dtos/update-order.dto';
 
 @Controller('orders')
 export class OrdersController {
@@ -40,7 +41,7 @@ export class OrdersController {
   }
 
   @Put('/:id')
-  async updateById(@Param('id') id: string, @Body() orderData: CreateOrderDTO) {
+  async updateById(@Param('id') id: string, @Body() orderData: UpdateOrderDTO) {
     const order = await this.ordersService.getById(id);
     if (!order) throw new NotFoundException('Order not found');
     return this.ordersService.updateById(id, orderData);

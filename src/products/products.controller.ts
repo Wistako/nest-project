@@ -22,6 +22,18 @@ export class ProductsController {
     return this.productsService.getAll();
   }
 
+  @Get('/extended')
+  getAllExtended(): any {
+    return this.productsService.getAllExtended();
+  }
+
+  @Get('/extended/:id')
+  async getAllExtendedById(@Param('id', new ParseUUIDPipe()) id: string) {
+    const prod = await this.productsService.getAllExtendedById(id);
+    if (!prod) throw new NotFoundException('Product not found');
+    return prod;
+  }
+
   @Get('/:id')
   async getById(@Param('id', new ParseUUIDPipe()) id: string) {
     const prod = await this.productsService.getById(id);
@@ -34,7 +46,7 @@ export class ProductsController {
     const prod = await this.productsService.getById(id);
     if (!prod) throw new NotFoundException('Product not found');
 
-    this.productsService.deleteById(id);
+    await this.productsService.deleteById(id);
     return { success: true };
   }
 
